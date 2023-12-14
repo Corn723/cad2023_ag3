@@ -11,8 +11,133 @@
 <p>41123102 張心瑜</p>
 <p>41123107 王麒瑋</p>
 <h1>座位排序程式</h1>
+<h2>排序程式</h2>
+<p><a href="https://mde.tw/cadnote/content/Brython.html?src=https://gist.githubusercontent.com/mdecycu/9215c7c160119721ded887018cda8f4e/raw/6aa687555226885c935927bffaab3f9a81b513a3/w13_2a_seat_html.py">排序程式</a></p>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false"># Brython code starts
+from browser import document, html
+
+# get output html location
+brython_div = document["brython_div1"]
+brython_div &lt;= html.P(id="output_table")
+
+# Replace this line with the actual file content
+file_content = open("https://mde.tw/cadnote/downloads/2a_w12_seat.txt").read()
+
+# Create a dictionary to store student numbers and seat numbers
+seat_map = {}
+
+# Process each line of the file content
+for line in file_content.splitlines():
+    # Split each line using tabs
+    elements = line.split("\t")
+
+    # If the line contains seat information
+    if len(elements) == 2 and "(" in elements[1]:
+        # Extract student number and seat information
+        stud_num = elements[0].strip()
+        seat_info = elements[1].strip()
+
+        # Add student number and seat information to the dictionary
+        seat_map[stud_num] = seat_info
+
+# Find the maximum row and column values
+max_row = max(int(seat_info[1]) for seat_info in seat_map.values())
+max_col = max(int(seat_info[3]) for seat_info in seat_map.values())
+
+# Initialize a 2D list to represent the seating arrangement
+seating_arrangement = [["空位"] * max_col for _ in range(max_row)]
+
+# Populate the seating arrangement with student information
+for stud_num, seat_info in seat_map.items():
+    row = int(seat_info[1]) - 1
+    col = int(seat_info[3]) - 1
+    seating_arrangement[row][col] = f"座位號: {seat_info}, 學號: {stud_num}"
+
+# Display the result in the HTML document
+result_html = "&lt;table&gt;"
+for row in seating_arrangement:
+    result_html += "&lt;tr&gt;"
+    for cell_content in row:
+        result_html += f"&lt;td&gt;{cell_content}&lt;/td&gt;"
+    result_html += "&lt;/tr&gt;"
+result_html += "&lt;/table&gt;"
+
+# Update the HTML content with the result
+document["output_table"].html = result_html
+# Brython code ends
+</pre>
 <p></p>
-<h1>HW</h1>
+<h2>執行結果</h2>
+<table>
+<tbody>
+<tr>
+<td>座位號: (1,1), 學號: 41123123</td>
+<td>座位號: (1,2), 學號: 41123119</td>
+<td>座位號: (1,3), 學號: 41123105</td>
+<td>座位號: (1,4), 學號: 41123152</td>
+<td>座位號: (1,5), 學號: 41123120</td>
+<td>座位號: (1,6), 學號: 41123108</td>
+<td>座位號: (1,7), 學號: 41123145</td>
+<td>座位號: (1,8), 學號: 41123137</td>
+<td>座位號: (1,9), 學號: 41123130</td>
+</tr>
+<tr>
+<td>座位號: (2,1), 學號: 41123140</td>
+<td>座位號: (2,2), 學號: 41123150</td>
+<td>座位號: (2,3), 學號: 41123124</td>
+<td>空位</td>
+<td>座位號: (2,5), 學號: 41136123</td>
+<td>座位號: (2,6), 學號: 41123148</td>
+<td>座位號: (2,7), 學號: 41123116</td>
+<td>座位號: (2,8), 學號: 41123146</td>
+<td>空位</td>
+</tr>
+<tr>
+<td>座位號: (3,1), 學號: 41123139</td>
+<td>座位號: (3,2), 學號: 41123131</td>
+<td>座位號: (3,3), 學號: 41123135</td>
+<td>座位號: (3,4), 學號: 41123149</td>
+<td>座位號: (3,5), 學號: 41123122</td>
+<td>座位號: (3,6), 學號: 41123134</td>
+<td>座位號: (3,7), 學號: 41123107</td>
+<td>座位號: (3,8), 學號: 41123101</td>
+<td>座位號: (3,9), 學號: 41123102</td>
+</tr>
+<tr>
+<td>座位號: (4,1), 學號: 41123128</td>
+<td>座位號: (4,2), 學號: 41123117</td>
+<td>座位號: (4,3), 學號: 41123114</td>
+<td>座位號: (4,4), 學號: 41123126</td>
+<td>座位號: (4,5), 學號: 41123115</td>
+<td>座位號: (4,6), 學號: 41123111</td>
+<td>空位</td>
+<td>座位號: (4,8), 學號: 41123112</td>
+<td>空位</td>
+</tr>
+<tr>
+<td>座位號: (5,1), 學號: 41123144</td>
+<td>座位號: (5,2), 學號: 41123141</td>
+<td>座位號: (5,3), 學號: 41123143</td>
+<td>座位號: (5,4), 學號: 41123129</td>
+<td>空位</td>
+<td>空位</td>
+<td>座位號: (5,7), 學號: 41023134</td>
+<td>座位號: (5,8), 學號: 41023156</td>
+<td>座位號: (5,9), 學號: 41023155</td>
+</tr>
+<tr>
+<td>座位號: (6,1), 學號: 40923118</td>
+<td>座位號: (6,2), 學號: 41123154</td>
+<td>座位號: (6,3), 學號: 41123153</td>
+<td>空位</td>
+<td>座位號: (6,5), 學號: 41023245</td>
+<td>座位號: (6,6), 學號: 41023246</td>
+<td>空位</td>
+<td>座位號: (6,8), 學號: 40923127</td>
+<td>座位號: (6,9), 學號: 40923213</td>
+</tr>
+</tbody>
+</table><h1>HW</h1>
 <h2>replit</h2>
 <p>1.登入replit，在My Repls中進去想維護的網站</p>
 <p><img alt="" height="333" src="/images/1.png" width="500"/></p>
